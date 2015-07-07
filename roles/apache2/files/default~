@@ -1,0 +1,19 @@
+<VirtualHost *:80>
+# Ceci est un commentaire
+# blabla
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    <Directory /var/www/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+# remplacé par AllowOverride All pour prise en compte du htaccess présent dans /var/www
+# Indiquer le chemin du répertoire Web depuis la racine
+        Order allow,deny
+        allow from all
+    </Directory>
+#
+# blabla
+#
+</VirtualHost>

@@ -1,0 +1,78 @@
+---
+#- name: 1.a Create seenthis directory
+#  file: path=/var/www/html/seenthis state=directory
+
+- name: 1.b Fill seenthis directory
+  subversion: repo=svn://trac.rezo.net/spip/branches/spip-2.1/ dest=/var/www/html/seenthis export=True
+
+- name: 2. Add the plugins
+  subversion: repo=svn://zone.spip.org/spip-zone/_plugins_/plugins_seenthis/autoembed dest=/var/www/html/seenthis/autoembed export=True
+
+- name: 3. Create plugins directory
+  file: path=/var/www/html/seenthis/plugins state=directory
+
+- name: 4. Install plugins et squelettes
+  subversion: repo=svn://zone.spip.org/spip-zone/_plugins_/{{ item.repo }}/ dest=/var/www/html/seenthis/plugins/{{ item.dest }}/ export=True
+  with_items:
+    - { repo : 'css_imbriques',dest : 'css_imbriques' }
+    - { repo : 'plugins_seenthis/date_relative_dynamique', dest : 'date_relative_dynamique'}
+    - { repo : 'plugins_seenthis/detecter_langue', dest : 'detecter_langue'}
+    - { repo : 'fulltext', dest : 'fulltext'}
+    - { repo : 'gravatar', dest : 'gravatar'}
+    - {  repo : 'inclure-ajaxload', dest : 'inclure-ajaxload'}
+    - {  repo : 'plugins_seenthis/lien_court/branches/spip2', dest : 'lien_court'}
+    - {  repo : 'iterateurs', dest : 'iterateurs'}
+    - {  repo : 'job_queue', dest : 'job_queue'}
+    - {  repo : 'mediabox', dest : 'mediabox'}
+    - {  repo : 'memoization', dest : 'memoization'}
+    - {  repo : 'plugins_seenthis/microcache', dest : 'microcache'}
+    - {  repo : 'opensearch', dest : 'opensearch'}
+    - {  repo : 'plugins_seenthis/recuperer_favicon', dest : 'recuperer_favicon'}
+    - {  repo : 'textwheel', dest : 'textwheel'}
+    - {  repo : 'typo_guillemets', dest : 'typo_guillemets'}
+    - {  repo : 'champs_extras/core/branches/v1', dest : 'champs_extras2'}
+    - {  repo : 'saisies', dest : 'saisies'}
+    - {  repo : 'cfg/branches/v1', dest : 'cfg'}
+    - {  repo : 'soundmanager', dest : 'soundmanager'}
+    - {  repo : 'photoswipe/trunk', dest : 'photoswipe'}
+    - {  repo : 'palette/trunk', dest : 'palette'}
+
+- name: 5. Install squelettes
+  subversion: repo=https://github.com/seenthis/{{ item.repo }}/ dest=/var/www/html/seenthis/plugins/{{ item.dest }}/ export=True
+  with_items:
+    - {  repo : 'seenthis/trunk', dest : 'seenthis'}
+    - {  repo : 'seenthis_squelettes/trunk', dest : 'seenthis_squelettes'}
+
+- name: 6.a Copy file mes_options.php
+  copy: src=mes_options.php dest=/var/www/html/seenthis/config/mes_options.php
+
+- name: 6.b Create .htaccess in root
+  copy: src=.htaccess dest=/var/www/html/seenthis/.htaccess
+
+- name: 6.c Create .htaccess in plugins
+  copy: src=mes_options.php dest=/var/www/html/seenthis/plugins/seenthis/.htaccess
+
+- name: 7. Write permission
+  file: path=/var/www/html/seenthis/{{ item.path }} mode=0777
+  with_items:
+    - { path : 'IMG'}
+    - { path : 'tmp'}
+    - { path : 'local'}
+    - { path : 'config'}
+
+- name: 8. Install optional plugins
+  subversion: repo=https://github.com/seenthis/{{ item.repo }}/ dest=/var/www/html/seenthis/plugins/{{ item.dest }}/ export=True
+  with_items:
+    - {  repo : 'seenthis_importer_flux/trunk', dest : 'seenthis_importer_flux'}
+    - {  repo : 'seenthis_opencalais/trunk', dest : 'seenthis_opencalais'}
+    - {  repo : 'seenthis_arbo_anglais/trunk', dest : 'seenthis_arbo_anglais'}
+
+- name: 9.a Install Sphinx
+  apt: name=sphinxsearch state=present
+
+- name: 9.b Install plugin seenthis_sphinx
+  subversion: repo=https://github.com/seenthis/seenthis_sphinx/trunk/ dest=/var/www/html/seenthis/plugins/seenthis_sphinx/ export=True
+
+- name: 9.c Install plugin indexer
+  subversion: repo=svn://zone.spip.org/spip-zone/_plugins_/indexer/trunk dest=/var/www/html/seenthis/plugins/indexer/ export=True
+

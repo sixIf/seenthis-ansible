@@ -1,0 +1,15 @@
+---
+- name: 1. install Apache
+  apt: name=apache2 state=present
+
+- name: 2. install PHP module for Apache
+  apt: name=libapache2-mod-php5 state=present
+
+- name: 3a. Create default file
+  copy: src=000-default.conf dest=/etc/apache2/sites-available/000-default.conf
+
+- name: 3b. Write permission
+  file: path=/var/www/ mode=0777
+
+- name: 4. start Apache
+  service: name=apache2 state=running enabled=yes
