@@ -2,14 +2,14 @@
 
 // localhost/seenthis
 define('_ANALYTICS', '');
-define('_HOST', 'localhost/seenthis');
+define('_HOST', 'intranet.adsib.gob.bo/seenthis/');
 define('_STATIC_HOST', _HOST);
 define('_SHORT_HOST', 'localhost/seenli');
 define('_API_HTTPS', false); # ne pas forcer https sur l'API
 
 $GLOBALS['table_titre']['auteurs'] = 'login';
 
-define('_URL_SEENTHIS', 'http://localhost/seenthis/');  # adresse de l'API
+define('_URL_SEENTHIS', 'https://intranet.adsib.gob.bo/seenthis/');  # adresse de l'API
 define('_SVG2PNG_SERVER','http://rezo.net/svg2png.php'); # convertisseur de SVG
 
 // systeme pour les traductions
