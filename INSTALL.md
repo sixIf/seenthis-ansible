@@ -5,7 +5,7 @@ Por consiguiente, las maquinas del servidor deben tener ssh instalado.
 
 
 
-### 2. InstalaciÃ³n de ansible
+### 2. Instalacion de ansible
 
 ```
 sudo apt-add-repository -y ppa:ansible/ansible
@@ -21,7 +21,7 @@ Tenemos que escreber en el archivo hosts localisado en /etc/ansible/hosts la dir
 
 ### 4. Ejecutar el playbook
 
-```ansible-playbook -i /etc/ansible/hosts /home/stoko/Documents/playbook.yml -k --ask-become-pass```
+```ansible-playbook -i /etc/ansible/hosts /direccionDelPlaybook/playbook.yml -k --ask-become-pass```
 
 Deberia entrar la contrasena de la conexion ssh y despues la contrasena de la cuenta sudo.
 
@@ -33,7 +33,7 @@ Ahora, tiene que seguir las instrucciones en el sitio.
 Podemos elegir MySql o SqLite por la base de datos
 
 
-# Con MySQL, poner "root" para el identificador de conexiÃ³n y dejar sin contrasena
+# Con MySQL, poner "root" para el identificador de conexion y dejar sin contrasena
  
 
 
@@ -56,9 +56,3 @@ ALTER TABLE spip_me_recherche ADD FULLTEXT texte (`texte`);
 ALTER table spip_syndic ENGINE=MyISAM;
 ALTER TABLE spip_syndic ADD FULLTEXT tout (`url_site`,`titre`,`texte`);
 ```
-
-
-
-
-
-
